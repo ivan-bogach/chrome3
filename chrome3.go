@@ -143,7 +143,7 @@ func GetString(ctxt context.Context, jsString string, resultString *string, need
 	}
 	if needLog {
 		d := color.New(color.FgGreen, color.Bold)
-		d.Println("Ok!")
+		d.Println("-ok")
 	}
 	return nil
 }
@@ -166,7 +166,7 @@ func GetStringsSlice(ctxt context.Context, jsString string, stringSlice *[]strin
 	}
 	if needLog {
 		d := color.New(color.FgGreen, color.Bold)
-		d.Println("Ok!")
+		d.Println("-ok")
 	}
 	return nil
 }
@@ -183,7 +183,7 @@ func GetReader(ctxt context.Context, jsString string, needLog bool) (*strings.Re
 	}
 	if needLog {
 		d := color.New(color.FgGreen, color.Bold)
-		d.Println("Ok!")
+		d.Println("-ok")
 	}
 	return strings.NewReader(resultString), nil
 }
@@ -205,7 +205,7 @@ func GetBool(ctxt context.Context, jsBool string, resultBool *bool, needLog bool
 	}
 	if needLog {
 		d := color.New(color.FgGreen, color.Bold)
-		d.Println("Ok!")
+		d.Println("-ok")
 	}
 	return nil
 }
@@ -232,7 +232,7 @@ func Click(ctxt context.Context, selector string, needLog bool) error {
 	}
 	if needLog {
 		d := color.New(color.FgGreen, color.Bold)
-		d.Println("Ok!")
+		d.Println("-ok")
 	}
 	return nil
 }
@@ -257,7 +257,7 @@ func SetInputValue(ctxt context.Context, selector, value string, needLog bool) e
 	}
 	if needLog {
 		d := color.New(color.FgGreen, color.Bold)
-		d.Println("Ok!")
+		d.Println("-ok")
 	}
 	return nil
 }

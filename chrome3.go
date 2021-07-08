@@ -228,7 +228,7 @@ func setInputValue(selector, value string, result *string) chromedp.Tasks {
 	}
 }
 
-func SetInputValue(ctxt context.Context, selector, value string, needLog, needFatal bool) error {
+func SetInputValue(ctxt context.Context, selector, value string, needLog bool) error {
 	if needLog {
 		c := color.New(color.FgGreen)
 		c.Printf("Setting an input >>>%s<<< value - >>>%s<<<", selector, value)

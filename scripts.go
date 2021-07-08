@@ -1,4 +1,4 @@
-package chrome2
+package chrome3
 
 func scriptOpenURL(url string) string {
 	return `

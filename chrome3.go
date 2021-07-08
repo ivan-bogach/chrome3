@@ -29,7 +29,7 @@ func InitWithProxy(pathForUserDataDir, proxyName string) (context.Context, conte
 
 func checkConn(connEnabled *bool) chromedp.Tasks {
 	return chromedp.Tasks{
-		chromedp.EvaluateAsDevTools(scriptCheckConn(), connEnabled)
+		chromedp.EvaluateAsDevTools(scriptCheckConn(), connEnabled),
 	}
 }
 

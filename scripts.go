@@ -1,7 +1,7 @@
 package chrome3
 
 func scriptCheckConn() string {
-	return `navigator.onLine`
+	return `navigator.onLine;`
 }
 
 func scriptOpenURL(url string) string {

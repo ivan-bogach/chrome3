@@ -1,5 +1,9 @@
 package chrome3
 
+func scriptCheckConn() string {
+	return `navigator.onLine`
+}
+
 func scriptOpenURL(url string) string {
 	return `
 	var error = []

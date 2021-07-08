@@ -26,6 +26,21 @@ func InitWithProxy(pathForUserDataDir, proxyName string) (context.Context, conte
 	allocContext, _ := chromedp.NewExecAllocator(context.Background(), opts...)
 	return chromedp.NewContext(allocContext)
 }
+
+func checkConn(connEnabled *bool) chromedp.Tasks {
+	return chromedp.Tasks{
+		chromedp.EvaluateAsDevTools(scriptCheckConn(), connEnabled)
+	}
+}
+
+func CheckConn(ctxt context.Context, connEnabled *bool) error {
+	err := chromedp.Run(ctxt, RunWithTimeOut(&ctxt, 60, checkConn(jsBool, connEnabled)))
+	if err != nil {
+		return fmt.Errorf("this is an %s error: %v", "CheckConn", err)
+	}
+	return nil
+}
+
 func openURL(url string, message *string) chromedp.Tasks {
 	return chromedp.Tasks{
 		chromedp.EvaluateAsDevTools(scriptOpenURL(url), message),

@@ -33,12 +33,13 @@ func checkConn(connEnabled *bool) chromedp.Tasks {
 	}
 }
 
-func CheckConn(ctxt context.Context, connEnabled *bool) error {
-	err := chromedp.Run(ctxt, RunWithTimeOut(&ctxt, 60, checkConn(connEnabled)))
+func CheckConn(ctxt context.Context) (bool, error) {
+	var connEnabled bool
+	err := chromedp.Run(ctxt, RunWithTimeOut(&ctxt, 60, checkConn(&connEnabled)))
 	if err != nil {
-		return fmt.Errorf("this is an %s error: %v", "CheckConn", err)
+		return false, fmt.Errorf("this is an %s error: %v", "CheckConn", err)
 	}
-	return nil
+	return connEnabled, nil
 }
 
 func openURL(url string, message *string) chromedp.Tasks {
@@ -132,7 +133,7 @@ func getString(jsString string, resultString *string) chromedp.Tasks {
 	}
 }
 
-func GetString(ctxt context.Context, jsString string, resultString *string, needLog bool)error{
+func GetString(ctxt context.Context, jsString string, resultString *string, needLog bool) error {
 	if needLog {
 		c := color.New(color.FgGreen)
 		c.Printf("Getting a string ' %s  ' - ", jsString)
@@ -262,7 +263,7 @@ func SetInputValue(ctxt context.Context, selector, value string, needLog bool) e
 	return nil
 }
 
-func WaitLoaded(ctxt context.Context) error{
+func WaitLoaded(ctxt context.Context) error {
 	var loaded bool
 	err := GetBool(ctxt, `document.readyState !== 'ready' && document.readyState !== 'complete'`, &loaded, false)
 	if err != nil {
@@ -295,18 +296,18 @@ func parsePage(ctxt context.Context, js string) ([]string, error) {
 }
 
 func StringSliceFromPage(ctxt context.Context, url, js string, waitFor ...string) ([]string, error) {
-	err:=OpenURL(ctxt, url, false)
+	err := OpenURL(ctxt, url, false)
 	if err != nil {
 		return nil, fmt.Errorf("this is an %s error: %v", "StringSliceFromPage", err)
 	}
 	if len(waitFor) == 0 {
-		err:=WaitLoaded(ctxt)
+		err := WaitLoaded(ctxt)
 		if err != nil {
 			return nil, fmt.Errorf("this is an %s error: %v", "StringSliceFromPage", err)
 		}
 	} else {
 		for _, w := range waitFor {
-			err :=WaitVisible(ctxt, w, false)
+			err := WaitVisible(ctxt, w, false)
 			if err != nil {
 				return nil, fmt.Errorf("this is an %s error: %v", "StringSliceFromPage", err)
 			}
@@ -324,27 +325,27 @@ func StringSliceFromPage(ctxt context.Context, url, js string, waitFor ...string
 func parseStrPage(ctxt context.Context, js string) (string, error) {
 	var str string
 	err := GetString(ctxt, js, &str, false)
-	if err != nil{
+	if err != nil {
 		return "", fmt.Errorf("this is an %s error: %v", "parseStrPage", err)
 	}
-	
+
 	return str, nil
 }
 
 func StringFromPage(ctxt context.Context, url, js string, waitFor ...string) (string, error) {
-	err:=OpenURL(ctxt, url, false)
-	if err != nil{
+	err := OpenURL(ctxt, url, false)
+	if err != nil {
 		return "", fmt.Errorf("this is an %s error: %v", "StringFromPage", err)
 	}
 	if len(waitFor) == 0 {
-		err :=WaitLoaded(ctxt)
-		if err != nil{
+		err := WaitLoaded(ctxt)
+		if err != nil {
 			return "", fmt.Errorf("this is an %s error: %v", "StringFromPage", err)
 		}
 	} else {
 		for _, w := range waitFor {
 			err := WaitVisible(ctxt, w, false)
-			if err != nil{
+			if err != nil {
 				return "", fmt.Errorf("this is an %s error: %v", "StringFromPage", err)
 			}
 		}
@@ -352,7 +353,7 @@ func StringFromPage(ctxt context.Context, url, js string, waitFor ...string) (st
 
 	time.Sleep(3 * time.Second)
 	newJSON, err := parseStrPage(ctxt, js)
-	if err != nil{
+	if err != nil {
 		return "", fmt.Errorf("this is an %s error: %v", "StringFromPage", err)
 	}
 	return newJSON, nil

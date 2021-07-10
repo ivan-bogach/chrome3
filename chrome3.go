@@ -75,7 +75,7 @@ func reload() chromedp.Tasks {
 	}
 }
 
-func Reload(ctxt *context.Context) error {
+func Reload(ctxt context.Context) error {
 	err := chromedp.Run(ctxt, RunWithTimeOut(&ctxt, 60, reload()))
 	if err != nil {
 		return fmt.Errorf("this is an %s error: %v", "Reload", err)

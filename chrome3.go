@@ -33,8 +33,9 @@ func checkConn(connEnabled *bool) chromedp.Tasks {
 	}
 }
 
+// Check connection
 func CheckConn(ctxt context.Context) (bool, error) {
-	var connEnabled bool
+	var connEbnaled bool
 	err := chromedp.Run(ctxt, RunWithTimeOut(&ctxt, 60, checkConn(&connEnabled)))
 	if err != nil {
 		return false, fmt.Errorf("this is an %s error: %v", "CheckConn", err)

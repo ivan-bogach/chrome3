@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/chromedp/cdproto/browser"
 	"github.com/fatih/color"
 	"github.com/knq/chromedp"
 )
@@ -56,7 +57,8 @@ func OpenURL(ctxt context.Context, url string, needLog bool) error {
 	}
 
 	var message string
-	err := chromedp.Run(ctxt, RunWithTimeOut(&ctxt, 60, openURL(url, &message)))
+	// err := chromedp.Run(ctxt, RunWithTimeOut(&ctxt, 60, openURL(url, &message)))
+	err := chromedp.Run(ctxt, browser.SetDownloadBehavior(browser.SetDownloadBehaviorBehaviorAllowAndName).WithDownloadPath(".").WithEventsEnabled(true), RunWithTimeOut(&ctxt, 60, openURL(url, &message)))
 	if err != nil {
 		return fmt.Errorf("this is an %s error: %v", "OpenURL", err)
 	}
